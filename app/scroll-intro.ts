@@ -13,6 +13,8 @@ export function createScrollIntro(requestFrame: () => void) {
   const mobileCta = document.querySelector<HTMLElement>(".mobile-cta");
   const skip = intro.querySelector<HTMLButtonElement>(".intro-skip");
   const pieces = Array.from(hero.querySelectorAll<HTMLElement>(".hero-copy > *"));
+  const isAppleMobile = /iP(?:ad|hone|od)/.test(navigator.userAgent)
+    || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   let failed = false;
   let finalFrameReady = false;
   let watchdog = 0;
@@ -20,7 +22,7 @@ export function createScrollIntro(requestFrame: () => void) {
   let disposed = false;
   let blobRequested = false;
   let blobUrl = "";
-  let travelDistance = 0;
+  let videoUnlocked = !isAppleMobile;
   const download = new AbortController();
   // Last displayable frame of this 24 fps asset (duration itself is past EOF).
   const endTime = () => Math.max(0, video.duration - 1 / 24 + 0.001);
@@ -29,19 +31,17 @@ export function createScrollIntro(requestFrame: () => void) {
     if (element) element.inert = !enabled;
   };
   const restore = () => {
-    // Keep the pre-change distance: the reduced-motion media query has already
-    // collapsed CSS layout by the time its JS change listener runs.
-    const oldDistance = travelDistance;
-    travelDistance = 0;
     const oldTop = intro.getBoundingClientRect().top + window.scrollY;
     intro.dataset.fallback = "true";
     document.documentElement.style.setProperty("--intro-nav", "1");
     document.documentElement.style.setProperty("--intro-cta", "1");
     [hero, topbar, mobileCta].forEach((el) => setInteractive(el, true));
     clearTimeout(watchdog);
-    // Preserve the reader's position if a preference/error collapses the runway.
+    // The reduced-motion media query can collapse layout before its `change`
+    // event arrives, so a distance-based correction is unreliable. Keep the
+    // Hero at the top of the viewport instead.
     if (window.scrollY > oldTop) {
-      window.scrollTo({ top: Math.max(oldTop, window.scrollY - oldDistance), behavior: "instant" });
+      window.scrollTo({ top: oldTop, behavior: "instant" });
     }
     requestFrame();
   };
@@ -53,7 +53,6 @@ export function createScrollIntro(requestFrame: () => void) {
   };
   const measure = () => {
     intro.style.setProperty("--intro-hero-height", `${hero.offsetHeight}px`);
-    if (!media.matches && !failed) travelDistance = Math.max(0, intro.offsetHeight - stage.offsetHeight);
     requestFrame();
   };
   const onPreference = () => {
@@ -98,6 +97,23 @@ export function createScrollIntro(requestFrame: () => void) {
     finalFrameReady = video.readyState >= 2 && video.currentTime >= endTime() - 0.02;
     requestFrame();
   };
+  const unlockVideo = () => {
+    if (!isAppleMobile || videoUnlocked || failed || media.matches) return;
+    videoUnlocked = true;
+    // iOS may defer media loading on cellular until a direct user gesture. Start
+    // and immediately pause the muted, inline element to unlock its decoder; all
+    // subsequent frames still come only from scroll-driven currentTime updates.
+    video.muted = true;
+    video.playsInline = true;
+    video.play()
+      .then(() => {
+        video.pause();
+        requestFrame();
+      })
+      .catch(() => {
+        videoUnlocked = false;
+      });
+  };
   const onSkip = () => {
     fail();
     const heading = hero.querySelector("h1");
@@ -111,6 +127,8 @@ export function createScrollIntro(requestFrame: () => void) {
   video.addEventListener("error", fail);
   video.querySelector("source")?.addEventListener("error", fail);
   skip?.addEventListener("click", onSkip);
+  window.addEventListener("pointerdown", unlockVideo, { passive: true });
+  window.addEventListener("touchstart", unlockVideo, { passive: true });
   media.addEventListener("change", onPreference);
   window.addEventListener("pageshow", measure);
   const resizeObserver = new ResizeObserver(measure);
@@ -174,6 +192,8 @@ export function createScrollIntro(requestFrame: () => void) {
       video.removeEventListener("error", fail);
       video.querySelector("source")?.removeEventListener("error", fail);
       skip?.removeEventListener("click", onSkip);
+      window.removeEventListener("pointerdown", unlockVideo);
+      window.removeEventListener("touchstart", unlockVideo);
       media.removeEventListener("change", onPreference);
       window.removeEventListener("pageshow", measure);
       [hero, topbar, mobileCta].forEach((el) => setInteractive(el, true));

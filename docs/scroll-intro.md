@@ -21,9 +21,12 @@ scrolls normally. The `#top` anchor sits at the end of this travel.
 The last frame must have decoded before reveal is allowed, including when the
 user jumps directly to the end. Scroll reversal reverses every intro phase.
 The shared `MotionExperience` requestAnimationFrame scheduler runs all updates;
-seeks are coalesced while the decoder is busy. No autoplay, `play()`, scroll
-hijacking or animation dependency is used. Existing Hero entry animations are
-disabled only inside the intro; its later ambient/pointer motion remains intact.
+seeks are coalesced while the decoder is busy. On iPhone/iPad, the first touch
+briefly starts and pauses the muted inline video to unlock Safari's media decoder;
+the film continues to advance only from scroll-driven `currentTime` seeks. No
+timed autoplay, scroll hijacking or animation dependency is used. Existing Hero
+entry animations are disabled only inside the intro; its later ambient/pointer
+motion remains intact.
 
 The film scales by at most 2.5% and blurs by at most 2px while fading. Hero lifts
 64px and scales from .985 to 1. Topbar and mobile CTA fade in during the reveal;
@@ -86,8 +89,8 @@ stop, reload, reduced motion, no JS, video failure, skip and `#top` entry.
 
 Verified on 2026-09-10: build succeeded; all four `npm test` checks passed; lint
 passed with the existing `StaticImage.tsx` no-img-element warning. All six
-viewport runs and all six fallback/navigation scenarios passed against the
-built local Worker. Additional native wheel input moved 120px and scrubbed to
+viewport runs, all six fallback/navigation scenarios, and an iPhone user-gesture
+unlock scenario passed against the built local Worker. Additional native wheel input moved 120px and scrubbed to
 0.709s; a Chromium touch gesture moved 285px and scrubbed to 1.437s with the video
 still paused. Ordinary page scroll after the completed Hero was also verified.
 The manual input demonstration is in ignored
@@ -105,8 +108,8 @@ The manual input demonstration is in ignored
   are independent of this ambient-type setup.
 - Vinext sets `history.scrollRestoration = "manual"`; reload returns to the top
   and the intro resets to 0%. That policy is preserved.
-- Browser QA uses Chromium viewport/touch emulation. Physical iOS Safari and
-  Mac trackpad hardware were not available for verification.
+- Browser QA includes iPhone UA/touch emulation, but physical iOS Safari and Mac
+  trackpad hardware were not available for verification.
 - Hosting/Worker configuration, SEO, original copy, Google Forms, existing
   images and sections after Hero are unchanged. Production has not been pushed
   or deployed by this change.

@@ -96,6 +96,7 @@ try {
     if (mode === 'reduced-live') {
       await seek(page, 0.39);
       await page.emulateMedia({ reducedMotion:'reduce' });
+      await page.waitForFunction(() => document.querySelector('.scroll-intro').dataset.fallback === 'true');
     }
     if (mode === 'deep-link') await page.waitForFunction(() => document.querySelector('.scroll-intro').dataset.complete === 'true');
     else await page.waitForFunction(() => getComputedStyle(document.querySelector('.intro-hero')).opacity === '1');
@@ -113,6 +114,39 @@ try {
     await page.screenshot({ path:`${output}/${mode}.png` });
     reports.push({ mode, ...usable });
     console.log(`PASS ${mode}`);
+    await context.close();
+  }
+
+  {
+    const context = await browser.newContext({
+      viewport: { width: 390, height: 844 },
+      isMobile: true,
+      hasTouch: true,
+      userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Version/17.0 Mobile/15E148 Safari/604.1',
+    });
+    const page = await context.newPage();
+    await page.addInitScript(() => {
+      window.__introPlayEvents = 0;
+      document.addEventListener('play', (event) => {
+        if (event.target instanceof HTMLVideoElement) window.__introPlayEvents += 1;
+      }, true);
+    });
+    await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => document.querySelector('video').readyState >= 2);
+    await page.waitForFunction(() => document.documentElement.classList.contains('motion-ready'));
+    await page.touchscreen.tap(20, 100);
+    await page.waitForFunction(() => window.__introPlayEvents === 1);
+    await page.evaluate(() => {
+      const intro = document.querySelector('.scroll-intro');
+      const stage = document.querySelector('.intro-stage');
+      window.scrollTo({ top: (intro.offsetHeight - stage.offsetHeight) * 0.39, behavior: 'instant' });
+    });
+    await page.waitForFunction(() => {
+      const video = document.querySelector('video');
+      return video.currentTime > 4.9 && video.paused;
+    });
+    reports.push({ mode: 'ios-user-activation', ...await snapshot(page) });
+    console.log('PASS ios-user-activation');
     await context.close();
   }
 } finally {
