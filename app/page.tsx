@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "./StaticImage";
 import MotionExperience from "./MotionExperience";
 
 const FORM_URL_3 = "https://forms.gle/qkEByJECFsTB1tiGA";

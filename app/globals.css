@@ -39,6 +39,7 @@ footer{background:linear-gradient(110deg,#e73773,#f37a49 33%,#259cae 68%,#67417f
 .hero:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#fff 0%,rgba(255,255,255,.98) 35%,rgba(255,255,255,.64) 56%,rgba(255,255,255,.08) 100%)}
 .hero:after{content:"";position:absolute;left:-8%;bottom:-28%;width:62%;height:48%;z-index:-2;border-radius:50%;background:linear-gradient(90deg,rgba(239,63,121,.12),rgba(255,158,45,.12),rgba(40,185,190,.11),rgba(121,82,173,.1));filter:blur(65px)}
 .hero-brand-art{position:absolute;z-index:-3;right:-2.5vw;top:64px;width:min(66vw,950px);height:790px}
+.hero-brand-art>img,.image-stack>img,.gallery figure>img,.final-cta>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .hero-brand-art img{object-fit:contain;object-position:right center}
 .hero-copy{width:min(55%,780px)}
 .hero h1{font-size:clamp(58px,6.7vw,104px);line-height:1.07;margin:20px 0 25px}
