@@ -163,3 +163,40 @@ main>section,main>.brand-marquee,main>footer{position:relative;z-index:1}
 .entry-option:focus-visible{outline:3px solid white;outline-offset:4px}
 
 @media(max-width:800px){.final-cta{min-height:880px;padding:88px 22px 125px}.entry-options{grid-template-columns:1fr;gap:12px;margin-top:28px}.entry-option{padding:20px 54px 20px 22px}.entry-option strong{font-size:28px}.entry-option:hover{transform:none}}
+
+/* Film -> existing Hero: 300svh of travel, then the Hero's full natural height. */
+.scroll-intro{--intro-hero-height:900px;position:relative;z-index:2;height:calc(300svh + var(--intro-hero-height));background:#fff}
+.intro-stage{position:sticky;top:0;isolation:isolate}
+.intro-destination{position:absolute;top:300svh;left:0;width:1px;height:1px}
+.intro-film{position:absolute;z-index:3;inset:0 0 auto;height:100svh;overflow:hidden;background:#fff;opacity:var(--intro-video-opacity,1);transform:scale(var(--intro-video-scale,1));filter:blur(var(--intro-video-blur,0px));pointer-events:none}
+.intro-film video{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.intro-hero{position:relative;opacity:0;transform-origin:center top;transform:translateY(64px) scale(.985)}
+.intro-hero .hero-copy,.intro-hero .hero h1 .copy-line{animation:none}
+.intro-hero .hero-copy>*{opacity:0;transform:translateY(24px)}
+.scroll-intro:not([data-complete="true"]) .hero-brand-art{animation-play-state:paused}
+.intro-skip{position:absolute;z-index:4;top:calc(100svh - 64px - env(safe-area-inset-bottom,0px));right:max(24px,env(safe-area-inset-right));padding:10px 15px;border:1px solid #766a782e;border-radius:30px;color:#675d69;background:#ffffffd9;font:inherit;font-size:12px;cursor:pointer}
+.intro-skip:focus-visible{outline:2px solid var(--purple);outline-offset:4px}
+main:has(.scroll-intro) .topbar{opacity:var(--intro-nav,0)}
+main:has(.scroll-intro) .mobile-cta{opacity:var(--intro-cta,0)}
+main:has(.scroll-intro) .topbar:not(:focus-within),main:has(.scroll-intro) .mobile-cta:not(:focus-visible){visibility:hidden}
+main:has(.scroll-intro[data-complete="true"]) .topbar,main:has(.scroll-intro[data-complete="true"]) .mobile-cta,main:has(.scroll-intro[data-fallback]) .topbar,main:has(.scroll-intro[data-fallback]) .mobile-cta{visibility:visible}
+/* Portrait: enlarge the central artwork without cutting its vortex or lettering.
+   Feather only the empty top/bottom edges into the white stage. */
+@media(max-aspect-ratio:4/3){
+  .intro-film video{position:absolute;left:50%;top:50%;width:min(165vw,177.778svh);height:auto;max-width:none;transform:translate(-50%,-50%);object-fit:contain;mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent)}
+}
+@media(max-width:800px){.scroll-intro{--intro-hero-height:1040px}.intro-skip{right:20px;font-size:12px}}
+.scroll-intro[data-fallback]{height:auto}
+.scroll-intro[data-fallback] .intro-stage{position:relative}
+.scroll-intro[data-fallback] .intro-film,.scroll-intro[data-fallback] .intro-skip{display:none}
+.scroll-intro[data-fallback] .intro-destination{top:0}
+.scroll-intro[data-fallback] .intro-hero,.scroll-intro[data-fallback] .hero-copy>*{opacity:1!important;transform:none!important}
+@media(prefers-reduced-motion:reduce){
+  .scroll-intro{height:auto}
+  .intro-stage{position:relative}
+  .intro-film,.intro-skip{display:none}
+  .intro-destination{top:0}
+  .intro-hero,.intro-hero .hero-copy>*{opacity:1!important;transform:none!important}
+  main:has(.scroll-intro) .topbar,main:has(.scroll-intro) .mobile-cta{opacity:1;visibility:visible!important}
+}
+main:has(.scroll-intro[data-nav-visible="true"]) .topbar,main:has(.scroll-intro[data-cta-visible="true"]) .mobile-cta{visibility:visible}

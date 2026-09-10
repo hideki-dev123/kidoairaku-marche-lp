@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { createScrollIntro } from "./scroll-intro";
 
 const REVEAL_SELECTOR = [
   ".section-head",
@@ -60,10 +61,12 @@ export default function MotionExperience() {
       const scrollY = window.scrollY;
       const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
       const progress = Math.min(scrollY / maxScroll, 1);
+      intro?.update();
 
       if (progressRef.current) progressRef.current.style.transform = `scaleX(${progress})`;
       topbar?.classList.toggle("is-scrolled", scrollY > 24);
-      heroArt?.style.setProperty("--scroll-shift", `${Math.min(scrollY * 0.075, 62)}px`);
+      const heroScroll = Math.max(0, -(hero?.getBoundingClientRect().top ?? 0));
+      heroArt?.style.setProperty("--scroll-shift", `${Math.min(heroScroll * 0.075, 62)}px`);
 
       parallaxImages.forEach((image) => {
         const parent = image.parentElement;
@@ -80,6 +83,7 @@ export default function MotionExperience() {
       if (frame) return;
       frame = window.requestAnimationFrame(updateScrollMotion);
     };
+    const intro = createScrollIntro(requestScrollMotion);
 
     const updatePointerMotion = (event: PointerEvent) => {
       if (!hero || !heroArt || event.pointerType === "touch") return;
@@ -99,9 +103,10 @@ export default function MotionExperience() {
     window.addEventListener("resize", requestScrollMotion);
     hero?.addEventListener("pointermove", updatePointerMotion);
     hero?.addEventListener("pointerleave", resetPointerMotion);
-    updateScrollMotion();
+    requestScrollMotion();
 
     return () => {
+      intro?.destroy();
       observer.disconnect();
       window.removeEventListener("scroll", requestScrollMotion);
       window.removeEventListener("resize", requestScrollMotion);

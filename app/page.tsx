@@ -1,5 +1,6 @@
 import Image from "./StaticImage";
 import MotionExperience from "./MotionExperience";
+import ScrollIntro from "./ScrollIntro";
 
 const FORM_URL_3 = "https://forms.gle/qkEByJECFsTB1tiGA";
 const FORM_URL_4 = "https://docs.google.com/forms/d/e/1FAIpQLSd-fdjrcu8swAWqqKDGypXd3B78oRXNhxMd0xuo5n6I03S3rw/viewform?usp=dialog";
@@ -23,7 +24,8 @@ export default function Home() {
   return <main>
     <MotionExperience />
     <header className="topbar"><a className="brand" href="#top"><span className="brand-mark">喜怒哀楽</span><span>全開マルシェ</span></a><nav aria-label="メインナビゲーション"><a href="#about">この場所について</a><a href="#outline">開催概要</a><Cta label="申し込む" /></nav></header>
-    <section className="hero" id="top">
+    <ScrollIntro>
+    <section className="hero">
       <div className="hero-brand-art" aria-hidden="true"><Image src="/images/marche-watercolor.png" alt="" fill priority sizes="(max-width: 800px) 100vw, 64vw" /></div>
       <div className="hero-copy">
         <p className="eyebrow">3rd KIDO-AI-RAKU MARCHE · 2026</p>
@@ -35,6 +37,7 @@ export default function Home() {
       </div>
       <div className="quick-facts"><span>第三回 喜怒哀楽全開マルシェ</span><span>学生 ¥2,900〜</span><span>会場は決定次第ご案内</span></div>
     </section>
+    </ScrollIntro>
     <div className="brand-marquee" aria-hidden="true"><div className="marquee-track"><span>好きから始める</span><i>●</i><span>未完成で出す</span><i>●</i><span>もっと、人間人間する</span><i>●</i><span>好きから始める</span><i>●</i><span>未完成で出す</span><i>●</i><span>もっと、人間人間する</span><i>●</i></div></div>
     <section className="manifesto section"><p className="section-no">01 · WHY</p><div className="manifesto-text"><p><span className="copy-line">気づけば、</span><span className="copy-line">“誰かに認められるための人生”を</span><span className="copy-line">生きてしまっていないだろうか。</span></p><h2><span className="copy-line">あなたの人生の起点は、</span><span className="copy-line emphasis">社会じゃなくて、あなた。</span></h2></div><p className="side-note"><span className="copy-line">立ち止まってもいい。</span><span className="copy-line">答えがなくてもいい。</span></p></section>
     <section className="about section" id="about"><div className="section-head"><p className="section-no">02 · ABOUT</p><h2><span className="copy-line">未完成のまま、</span><span className="copy-line">ここに来ていい。</span></h2></div><div className="about-grid"><div className="about-copy"><p className="large">喜怒哀楽全開マルシェは、自分の「好き」「やりたい」「気になる」を持ち寄って、人と交わり、表現し、感じるイベントです。</p><p>完成していなくてもいい。すごい実績がなくてもいい。うまく言葉にできなくてもいい。大切なのは、あなたの中の感情が動くこと。</p></div><div className="image-stack"><Image src="/images/collage.png" alt="写真を選びながら対話するワークショップ" fill sizes="(max-width: 700px) 92vw, 45vw" /></div></div><div className="values"><article><span>01</span><h3>好きから始める</h3><p>役に立つかより、心が動くかを大切に。</p></article><article><span>02</span><h3>未完成で出す</h3><p>準備万端じゃなくていい。今の自分をそのまま。</p></article><article className="accent"><span>03</span><h3>人間人間する</h3><p>喜びも迷いも熱も、人間らしさごと交わる。</p></article></div></section>
