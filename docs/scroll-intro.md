@@ -111,5 +111,5 @@ The manual input demonstration is in ignored
 - Browser QA includes iPhone UA/touch emulation, but physical iOS Safari and Mac
   trackpad hardware were not available for verification.
 - Hosting/Worker configuration, SEO, original copy, Google Forms, existing
-  images and sections after Hero are unchanged. Production has not been pushed
-  or deployed by this change.
+  images and sections after Hero are unchanged. Production deployment is
+  managed separately from this repository's GitHub `main` branch.
