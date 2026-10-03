@@ -146,23 +146,27 @@ main>section,main>.brand-marquee,main>footer{position:relative;z-index:1}
 @media(max-width:800px){.brand-marquee{height:60px}.marquee-track{gap:30px;padding-right:30px;font-size:15px;animation-duration:24s}.ambient-orb{width:72vw;height:72vw;filter:blur(80px)}.topbar.is-scrolled{height:58px}.gallery figure img,.image-stack img,.final-cta>img{transform:translate3d(0,var(--parallax-y),0) scale(1.1)}}
 @media(prefers-reduced-motion:reduce){.scroll-progress{display:none}.ambient-orb,.marquee-track,.hero-brand-art,.hero h1 .copy-line,.final-overlay{animation:none!important}.motion-ready .motion-reveal{opacity:1!important;translate:0!important;scale:1!important;filter:none!important;transition:none!important}.gallery figure img,.image-stack img,.final-cta>img{transform:scale(1.03)!important}.topbar{transition:none}}
 
-/* Application choices: preserve the existing final scene while adding the fourth event. */
+/* A single November entry, within the original final scene. */
 .final-cta{height:auto;min-height:820px;padding:100px max(5vw,22px)}
 .final-copy{width:min(980px,100%)}
 .final-copy>p{margin-inline:auto;max-width:760px}
-.entry-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:34px auto 0;width:min(820px,100%);text-align:left}
+.entry-options{display:grid;grid-template-columns:1fr;margin:34px auto 0;width:min(560px,100%);text-align:left}
 .entry-option{position:relative;display:grid;gap:9px;padding:24px 58px 24px 26px;border:1px solid rgba(255,255,255,.56);border-radius:18px;background:rgba(255,255,255,.91);color:var(--ink);box-shadow:0 18px 52px rgba(34,20,41,.18);backdrop-filter:blur(18px) saturate(1.18);-webkit-backdrop-filter:blur(18px) saturate(1.18);transition:transform .4s cubic-bezier(.2,.75,.2,1),box-shadow .4s ease,background-color .4s ease}
 .entry-option small{font-size:11px;font-weight:800;letter-spacing:.2em;color:var(--pink)}
 .entry-option strong{font-family:serif;font-size:clamp(26px,3vw,38px);line-height:1}
 .entry-option strong span{font-family:Arial,"Noto Sans JP",sans-serif;font-size:10px;letter-spacing:.12em;border:1px solid rgba(76,54,83,.3);border-radius:999px;padding:4px 7px;vertical-align:middle}
-.entry-option em{font-style:normal;font-size:13px;font-weight:700;color:#685d6b}
+.entry-option em{font-style:normal;font-size:15px;font-weight:700;color:#685d6b}
+.entry-form-note{font-size:11px;line-height:1.6;color:#776d79}
+.entry-option small{line-height:1.7}
+.entry-option b{transition:transform .3s ease}
+.entry-option:hover b{transform:translate(2px,-2px)}
+.cta:focus-visible,.text-link:focus-visible,.mobile-cta:focus-visible{outline:3px solid var(--purple);outline-offset:5px}
+.mobile-cta{bottom:calc(12px + env(safe-area-inset-bottom,0px))}
 .entry-option b{position:absolute;right:24px;top:50%;translate:0 -50%;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:linear-gradient(120deg,var(--pink),var(--orange));color:white;font-size:16px}
-.entry-option-next small{color:var(--aqua)}
-.entry-option-next b{background:linear-gradient(120deg,var(--aqua),var(--blue),var(--purple))}
 .entry-option:hover{transform:translateY(-5px);background:white;box-shadow:0 25px 65px rgba(34,20,41,.25)}
 .entry-option:focus-visible{outline:3px solid white;outline-offset:4px}
 
-@media(max-width:800px){.final-cta{min-height:880px;padding:88px 22px 125px}.entry-options{grid-template-columns:1fr;gap:12px;margin-top:28px}.entry-option{padding:20px 54px 20px 22px}.entry-option strong{font-size:28px}.entry-option:hover{transform:none}}
+@media(max-width:800px){.final-cta{min-height:780px;padding:88px 22px 125px}.entry-options{grid-template-columns:1fr;gap:12px;margin-top:28px}.entry-option{padding:20px 54px 20px 22px}.entry-option strong{font-size:28px}.entry-option:hover{transform:none}}
 
 /* Film -> existing Hero: 300svh of travel, then the Hero's full natural height. */
 .scroll-intro{--intro-hero-height:900px;position:relative;z-index:2;height:calc(300svh + var(--intro-hero-height));background:#fff}
@@ -200,3 +204,6 @@ main:has(.scroll-intro[data-complete="true"]) .topbar,main:has(.scroll-intro[dat
   main:has(.scroll-intro) .topbar,main:has(.scroll-intro) .mobile-cta{opacity:1;visibility:visible!important}
 }
 main:has(.scroll-intro[data-nav-visible="true"]) .topbar,main:has(.scroll-intro[data-cta-visible="true"]) .mobile-cta{visibility:visible}
+
+@media(max-width:420px){.entry-option{padding:22px 52px 22px 20px}.entry-option small{font-size:10px;letter-spacing:.1em}.entry-option strong{font-size:29px}.entry-option b{right:16px;width:30px;height:30px}.entry-option em{font-size:14px}.entry-form-note{font-size:10px}.mobile-cta{font-size:13px}}
+@media(prefers-reduced-motion:reduce){.entry-option,.entry-option b{transition:none}.entry-option:hover,.entry-option:hover b{transform:none}}

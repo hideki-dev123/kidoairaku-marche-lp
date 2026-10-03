@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "第三回 喜怒哀楽全開マルシェ｜2026年9月27日",
+  title: "第三回 喜怒哀楽全開マルシェ｜2026年11月29日",
   description: "あなたの『好き』、ちゃんと生きてる？ 好き・熱・未完成の自己表現を持ち寄る、第三回 喜怒哀楽全開マルシェ。",
   other: {
     "codex-preview": "development",
