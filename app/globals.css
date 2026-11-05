@@ -303,3 +303,10 @@ body{line-height:1.75;-webkit-font-smoothing:antialiased}
 @media(max-width:360px){.section-head h2{font-size:26px;letter-spacing:0}.manifesto-text p{font-size:18px}}
 @media(max-width:360px){.event-primary strong{font-size:clamp(30px,9vw,34px)}.entry-option strong{font-size:25px}.entry-option{padding-right:50px}.entry-option small{letter-spacing:.06em}}
 
+/* Each identical cycle covers at least one viewport and travels its own width. */
+@keyframes marqueeCycle{to{transform:translate3d(-100%,0,0)}}
+.marquee-track{width:100%;gap:0;padding:0;animation:none;will-change:auto}
+.marquee-cycle{display:flex;flex:0 0 auto;align-items:center;justify-content:space-around;min-width:100%;gap:42px;padding-right:42px;white-space:nowrap;animation:marqueeCycle 112s linear infinite;will-change:transform}
+@media(max-width:800px){.marquee-cycle{gap:30px;padding-right:30px;animation-duration:96s}}
+@media(prefers-reduced-motion:reduce){.marquee-cycle{animation:none!important;will-change:auto}}
+
