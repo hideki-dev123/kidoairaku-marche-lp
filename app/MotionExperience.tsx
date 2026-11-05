@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { createScrollIntro } from "./scroll-intro";
+import { shouldShowMobileCta } from "./mobile-cta";
 
 const REVEAL_SELECTOR = [
   ".section-head",
@@ -31,6 +32,8 @@ export default function MotionExperience() {
     const topbar = document.querySelector<HTMLElement>(".topbar");
     const hero = document.querySelector<HTMLElement>(".hero");
     const heroArt = document.querySelector<HTMLElement>(".hero-brand-art");
+    const mobileCta = document.querySelector<HTMLElement>(".mobile-cta");
+    const entry = document.querySelector<HTMLElement>("#entry");
     const revealTargets = Array.from(document.querySelectorAll<HTMLElement>(REVEAL_SELECTOR));
     const parallaxImages = Array.from(
       document.querySelectorAll<HTMLElement>(".image-stack img, .gallery figure img, .final-cta > img"),
@@ -62,6 +65,9 @@ export default function MotionExperience() {
       const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
       const progress = Math.min(scrollY / maxScroll, 1);
       intro?.update();
+      if (hero && entry && mobileCta) {
+        mobileCta.classList.toggle("is-redundant", !shouldShowMobileCta(hero.getBoundingClientRect().bottom, entry.getBoundingClientRect().top, window.innerHeight));
+      }
 
       if (progressRef.current) progressRef.current.style.transform = `scaleX(${progress})`;
       topbar?.classList.toggle("is-scrolled", scrollY > 24);
@@ -127,3 +133,4 @@ export default function MotionExperience() {
     </>
   );
 }
+
