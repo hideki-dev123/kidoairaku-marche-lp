@@ -310,3 +310,32 @@ body{line-height:1.75;-webkit-font-smoothing:antialiased}
 @media(max-width:800px){.marquee-cycle{gap:30px;padding-right:30px;animation-duration:96s}}
 @media(prefers-reduced-motion:reduce){.marquee-cycle{animation:none!important;will-change:auto}}
 
+/* Compact site index: desktop links and an accessible small-screen disclosure. */
+.topbar{gap:clamp(12px,2vw,30px);padding-inline:clamp(22px,3.8vw,64px)}
+.topbar .brand{flex:none;white-space:nowrap}
+.topbar .desktop-index{margin-left:auto;display:flex;align-items:center;gap:clamp(12px,1.4vw,23px);font-size:12px;font-weight:600;white-space:nowrap}
+.topbar .desktop-index a{display:inline-flex;align-items:center;min-height:44px;color:#534b58;transition:color .2s}
+.topbar .desktop-index a:hover{color:#c43475}
+.topbar .header-cta{flex:none;min-height:44px;gap:12px;padding:11px 17px;color:#fff;background:linear-gradient(100deg,var(--pink),var(--orange));white-space:nowrap}
+.header-index{display:none;position:relative;margin-left:auto;flex:none}
+.header-index summary{list-style:none;display:flex;align-items:center;justify-content:center;gap:9px;min-width:74px;min-height:44px;padding:0 12px;border:1px solid rgba(112,83,116,.18);border-radius:999px;background:rgba(255,255,255,.85);color:#4d4353;cursor:pointer;font-size:12px;font-weight:700;letter-spacing:.04em;transition:border-color .2s,box-shadow .2s}
+.header-index summary::-webkit-details-marker{display:none}
+.header-index summary:hover,.header-index[open] summary{border-color:rgba(219,73,128,.45);box-shadow:0 5px 18px rgba(215,81,130,.12)}
+.index-icon{display:grid;gap:4px;width:13px}.index-icon i{display:block;width:13px;height:1.5px;border-radius:2px;background:#b84f85;transition:transform .2s}
+.header-index[open] .index-icon i:first-child{transform:translateY(2.75px) rotate(45deg)}.header-index[open] .index-icon i:last-child{transform:translateY(-2.75px) rotate(-45deg)}
+.index-panel{position:absolute;top:calc(100% + 12px);right:-84px;width:min(350px,calc(100vw - 28px));padding:22px 22px 15px;border:1px solid rgba(111,81,114,.14);border-radius:18px;background:#fffdfb;box-shadow:0 18px 55px rgba(75,48,78,.17);overflow:hidden}
+.index-panel:before{content:"";position:absolute;inset:0 0 auto;height:4px;background:linear-gradient(90deg,var(--pink),var(--orange),var(--yellow),var(--aqua),var(--purple))}
+.index-kicker{display:flex;align-items:center;gap:10px;margin:0 0 10px;color:#bd477a;font-size:10px;font-weight:800;letter-spacing:.2em}.index-kicker span{color:#817687;font-size:11px;font-weight:500;letter-spacing:.04em}
+.topbar .header-index nav{display:flex;flex-direction:column;align-items:stretch;gap:0}
+.topbar .header-index nav>a:not(.cta){position:static;display:flex;align-items:center;gap:15px;min-height:48px;padding:10px 2px;border-bottom:1px solid rgba(92,70,96,.10);color:#413a46;font-size:14px;font-weight:600;line-height:1.5}
+.topbar .header-index nav>a:last-child{border:0}.topbar .header-index nav>a:not(.cta):after{display:none}.topbar .header-index nav>a:hover{color:#c43475}
+.index-number{color:#c46796;font-size:10px;letter-spacing:.08em}.index-arrow{margin-left:auto;color:#aa8eaa;font-size:15px}
+.header-index summary:focus-visible,.desktop-index a:focus-visible,.header-index a:focus-visible{outline:3px solid #7952ad;outline-offset:3px}
+@media(max-width:1199px){.topbar .desktop-index{display:none}.header-index{display:block}}
+@media(max-width:800px){.topbar{padding-inline:16px;gap:8px}.topbar .header-cta{min-height:44px;padding:9px 13px;gap:8px;font-size:11px}.header-index summary{min-width:68px;padding:0 10px}.index-panel{right:-92px}}
+@media(max-width:360px){.topbar .brand{gap:5px;font-size:10px}.topbar .brand-mark{font-size:18px}.topbar .header-cta{padding-inline:10px}.header-index summary{min-width:62px;gap:6px}}
+@media(prefers-reduced-motion:reduce){.index-icon i,.header-index summary{transition:none}}
+.topbar:has(.header-index[open]){z-index:40}
+.index-panel{max-height:calc(100dvh - 88px);overflow-y:auto;overscroll-behavior:contain}
+@media(max-width:800px){.index-panel{right:-80px}}
+
